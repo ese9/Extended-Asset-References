@@ -7,6 +7,7 @@ using UnityEngine.U2D;
 using Object = UnityEngine.Object;
 
 // TODO: add Undo
+// TODO: add multiselection handle
 
 namespace Nine.AssetReferences.Editor.Drawers
 {
