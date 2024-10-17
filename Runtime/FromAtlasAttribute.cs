@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Nine.References
+namespace Nine.AssetReferences
 {
     [AttributeUsage(AttributeTargets.Field)]
     public class FromAtlasAttribute : PropertyAttribute

@@ -1,4 +1,4 @@
-﻿namespace Nine.References.Editor
+﻿namespace Nine.AssetReferences.Editor
 {
     /// <summary>
     /// https://github.com/halak/unity-editor-icons

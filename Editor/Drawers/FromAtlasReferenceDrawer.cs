@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Nine.References.Editor.Utilities;
+using Nine.AssetReferences.Editor.Utilities;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.U2D;
@@ -8,7 +8,7 @@ using Object = UnityEngine.Object;
 
 // TODO: add Undo
 
-namespace Nine.References.Editor.Drawers
+namespace Nine.AssetReferences.Editor.Drawers
 {
     [CustomPropertyDrawer(typeof(FromAtlasAttribute))]
     public class FromAtlasReferenceDrawer : PropertyDrawer

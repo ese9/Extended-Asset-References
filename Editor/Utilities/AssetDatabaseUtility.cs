@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using static UnityEditor.AssetDatabase;
 
-namespace Nine.References.Editor.Utilities
+namespace Nine.AssetReferences.Editor.Utilities
 {
     public static class AssetDatabaseUtility
     {

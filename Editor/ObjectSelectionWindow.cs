@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Nine.References.Editor
+namespace Nine.AssetReferences.Editor
 {
     public class ObjectSelectionWindow : EditorWindow
     {

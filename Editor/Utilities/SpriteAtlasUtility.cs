@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.U2D;
 
-namespace Nine.References.Editor.Utilities
+namespace Nine.AssetReferences.Editor.Utilities
 {
     public static class SpriteAtlasUtility
     {

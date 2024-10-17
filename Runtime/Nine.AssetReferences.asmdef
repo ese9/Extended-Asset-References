@@ -1,6 +1,6 @@
 {
-    "name": "Nine.References",
-    "rootNamespace": "Nine.References",
+    "name": "Nine.AssetReferences",
+    "rootNamespace": "Nine.AssetReferences",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

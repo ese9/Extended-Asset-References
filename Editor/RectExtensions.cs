@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Nine.References.Editor
+namespace Nine.AssetReferences.Editor
 {
     public static class RectExtensions
     {

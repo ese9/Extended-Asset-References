@@ -1,7 +1,7 @@
 ﻿using UnityEditor.AddressableAssets;
 using UnityEngine;
 
-namespace Nine.References.Editor.Utilities
+namespace Nine.AssetReferences.Editor.Utilities
 {
     public static class AddressableUtility
     {
