@@ -1,0 +1,11 @@
+﻿{
+  "name": "com.nine.asset-references",
+  "displayName": "Extended Asset References",
+  "version": "1.0.0-rc1",
+  "description": "Extended functionality for work with addressable asset references",
+  "dependencies": {
+    "com.unity.addressables": "1.21.21"
+  },
+  "author": "ese9",
+  "homepage": "https://github.com/ese9/Extended-Asset-References"
+}

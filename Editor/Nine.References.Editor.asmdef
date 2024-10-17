@@ -1,0 +1,19 @@
+{
+    "name": "Nine.References.Editor",
+    "rootNamespace": "Nine.References.Editor",
+    "references": [
+        "GUID:7173f46507f44e7d829a343c0ca9cb4c",
+        "GUID:69448af7b92c7f342b298e06a37122aa"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
