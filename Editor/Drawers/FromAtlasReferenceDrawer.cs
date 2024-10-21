@@ -150,7 +150,8 @@ namespace Nine.AssetReferences.Editor.Drawers
 
             if (GUI.Button(spriteSelectRect, "Select"))
             {
-                ObjectSelectionWindow.Show(atlasSprites.Cast<Object>().ToArray(),
+                ObjectSelectionWindow.Show("Sprite selection window",
+                                           atlasSprites.Cast<Object>().ToArray(),
                                            s =>
                                            {
                                                selectedSprite = s as Sprite;

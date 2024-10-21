@@ -20,9 +20,9 @@ namespace Nine.AssetReferences.Editor
         private const float BorderWidth = 2f;
         private static readonly Color HighlightColor = new (0.2f, 0.4f, 0.8f, 1f);
 
-        public static void Show(IList<Object> objects, Action<Object> onSelected)
+        public static void Show(string title, IList<Object> objects, Action<Object> onSelected)
         {
-            var window = GetWindow<ObjectSelectionWindow>("Custom Object Selector");
+            var window = GetWindow<ObjectSelectionWindow>(title);
             window.objectList = objects;
             window.onObjectSelected = onSelected;
             window.selectedObject = null;
