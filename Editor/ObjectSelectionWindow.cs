@@ -7,6 +7,7 @@ using Object = UnityEngine.Object;
 
 namespace Nine.AssetReferences.Editor
 {
+    // TODO: add None selection
     public class ObjectSelectionWindow : EditorWindow
     {
         private IList<Object> objectList;

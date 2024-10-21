@@ -14,9 +14,9 @@ namespace Nine.AssetReferences.Editor.Utilities
             return AssetPathToGUID(GetAssetPath(obj));
         }
 
-        public static IEnumerable<TObject> FindAssets<TObject>() where TObject : Object
+        public static IEnumerable<TObject> FindAssets<TObject>(string filter = null) where TObject : Object
         {
-            return AssetDatabase.FindAssets($"t:{typeof(TObject).Name}")
+            return AssetDatabase.FindAssets($"t:{typeof(TObject).Name} {filter}")
                                 .Select(GUIDToAssetPath)
                                 .Select(LoadAssetAtPath<TObject>);
         }

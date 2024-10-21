@@ -6,12 +6,11 @@ namespace Nine.AssetReferences.Editor.Utilities
     public static class SpriteAtlasUtility
     {
         public static bool TryFindSpriteAtlasBySpriteName(string spriteName,
-                                                          out SpriteAtlas spriteAtlas,
-                                                          out Sprite sprite)
+                                                          out SpriteAtlas spriteAtlas)
         {
             foreach (var atlas in AssetDatabaseUtility.FindAssets<SpriteAtlas>())
             {
-                sprite = atlas.GetSprite(spriteName);
+                var sprite = atlas.GetSprite(spriteName);
 
                 if (sprite)
                 {
@@ -22,7 +21,6 @@ namespace Nine.AssetReferences.Editor.Utilities
             }
 
             spriteAtlas = null;
-            sprite = null;
 
             return false;
         }
