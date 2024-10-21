@@ -80,6 +80,7 @@ namespace Nine.AssetReferences.Editor.Drawers
             if (selectedAtlas != newAtlas)
             {
                 SetAtlas(newAtlas);
+                SetSprite(newAtlas, SelectedSpriteName);
             }
 
             var spritePopupRect = controlRect.SplitVertical(1, 3)
@@ -182,10 +183,10 @@ namespace Nine.AssetReferences.Editor.Drawers
                          {
                              if (SpriteAtlasUtility.TryFindSpriteAtlasBySpriteName(SelectedSpriteName,
                                                                                    out var foundAtlas,
-                                                                                   out var foundSprite))
+                                                                                   out _))
                              {
                                  SetAtlas(foundAtlas);
-                                 selectedSprite = foundSprite;
+                                 SetSprite(foundAtlas, SelectedSpriteName);
                              }
                          });
             }
@@ -264,21 +265,28 @@ namespace Nine.AssetReferences.Editor.Drawers
             {
                 newGuid = AssetDatabaseUtility.GetAssetGuid(newAtlas);
                 atlasSprites = newAtlas.GetAtlasSprites();
-
-                if (!string.IsNullOrEmpty(SelectedSpriteName))
-                {
-                    selectedSprite = newAtlas.GetSprite(SelectedSpriteName);
-                }
-            }
-            else
-            {
-                selectedSprite = null;
             }
 
             atlasProperty.stringValue = newGuid;
             selectedAtlas = newAtlas;
+        }
 
-            if (!selectedSprite)
+        private void SetSprite(SpriteAtlas atlas, string spriteName)
+        {
+            if (atlas)
+            {
+                if (!string.IsNullOrEmpty(spriteName))
+                {
+                    selectedSprite = atlas.GetSprite(spriteName);
+                }
+                else
+                {
+                    selectedSprite = null;
+                }
+
+                spriteNameProperty.stringValue = spriteName;
+            }
+            else
             {
                 spriteNameProperty.stringValue = string.Empty;
             }
