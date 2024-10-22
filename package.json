@@ -1,7 +1,7 @@
 ﻿{
   "name": "com.nine.asset-references",
   "displayName": "Extended Asset References",
-  "version": "1.0.2-rc2",
+  "version": "1.0.2",
   "description": "Extended functionality for work with addressable asset references",
   "dependencies": {
     "com.unity.addressables": "1.21.1"
