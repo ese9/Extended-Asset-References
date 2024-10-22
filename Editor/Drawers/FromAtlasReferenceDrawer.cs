@@ -128,6 +128,11 @@ namespace Nine.AssetReferences.Editor.Drawers
                 var atlas = AssetDatabaseUtility.LoadAssetWithGuid<SpriteAtlas>(SelectedAtlasGuid);
 
                 SetAtlas(atlas);
+
+                if (HasSprite)
+                {
+                    selectedSprite = selectedAtlas.GetSprite(SelectedSpriteName);
+                }
             }
 
             return isInitialized = true;
