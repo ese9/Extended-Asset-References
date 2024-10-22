@@ -129,7 +129,7 @@ namespace Nine.AssetReferences.Editor.Drawers
 
                 SetAtlas(atlas);
 
-                if (HasSprite)
+                if (selectedAtlas && HasSprite)
                 {
                     selectedSprite = selectedAtlas.GetSprite(SelectedSpriteName);
                 }
