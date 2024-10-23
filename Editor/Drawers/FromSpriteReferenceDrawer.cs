@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Nine.AssetReferences.Editor.Drawers
 {
     [CustomPropertyDrawer(typeof(FromSpriteAttribute))]
-    public class FromSpriteReferenceDrawer : AssetReferenceSpriteDrawer<Texture2D>
+    public class FromSpriteReferenceDrawer : AssetReferenceSpriteDrawer<Sprite>
     {
         private Object[] sprites;
         private Sprite subSprite;
@@ -17,19 +19,28 @@ namespace Nine.AssetReferences.Editor.Drawers
             return isMultipleSprite ? subSprite ? subSprite : sprites[0] : MainAsset;
         }
 
-        protected override void OnMainAssetChanged(Texture2D newAsset)
+        protected override void OnMainAssetChanged(Sprite newAsset)
         {
-            var path = AssetDatabase.GUIDToAssetPath(MainAssetValue);
-            var importer = (TextureImporter)AssetImporter.GetAtPath(path);
-            isMultipleSprite = importer.spriteImportMode == SpriteImportMode.Multiple;
-
-            var all = AssetDatabase.LoadAllAssetsAtPath(path);
-            // skip main asset
-            sprites = new Object[all.Length - 1];
-
-            for (var i = 1; i < all.Length; i++)
+            if (newAsset)
             {
-                sprites[i - 1] = all[i];
+                var path = AssetDatabase.GUIDToAssetPath(MainAssetGuid);
+                var importer = (TextureImporter)AssetImporter.GetAtPath(path);
+                isMultipleSprite = importer.spriteImportMode == SpriteImportMode.Multiple;
+
+                var all = AssetDatabase.LoadAllAssetsAtPath(path);
+                // skip main asset
+                sprites = new Object[all.Length - 1];
+
+                for (var i = 1; i < all.Length; i++)
+                {
+                    sprites[i - 1] = all[i];
+                }
+            }
+            else
+            {
+                sprites = Array.Empty<Object>();
+                isMultipleSprite = false;
+                subSprite = null;
             }
         }
 

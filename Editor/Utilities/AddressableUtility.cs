@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Nine.AssetReferences.Editor.Utilities
 {
-    public static class AddressableUtility
+    internal static class AddressableUtility
     {
         public static bool IsAssetAddressable(Object asset)
         {

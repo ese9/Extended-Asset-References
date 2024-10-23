@@ -7,7 +7,7 @@ using static UnityEditor.AssetDatabase;
 
 namespace Nine.AssetReferences.Editor.Utilities
 {
-    public static class AssetDatabaseUtility
+    internal static class AssetDatabaseUtility
     {
         public static string GetAssetGuid(Object obj)
         {

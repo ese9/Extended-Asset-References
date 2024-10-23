@@ -11,8 +11,7 @@ using Object = UnityEngine.Object;
 
 namespace Nine.AssetReferences.Editor.Drawers
 {
-    // TODO: add Undo
-    // TODO: add multiselection handle
+    // TODO: draw multiselection
     public class AssetReferenceSpriteDrawer<T> : PropertyDrawer where T : Object
     {
         private bool isInitialized;
@@ -20,6 +19,7 @@ namespace Nine.AssetReferences.Editor.Drawers
         private SerializedObject serializedObject;
         private SerializedProperty mainAssetProperty;
         private SerializedProperty subAssetProperty;
+        private AssetReferenceSprite reference;
         private AssetReferenceSpriteValidator validator;
         private List<ValidationResult> validationResults;
 
@@ -29,14 +29,16 @@ namespace Nine.AssetReferences.Editor.Drawers
         private GUIStyle errorLabelStyle;
 
         private const float ButtonWidth = 48;
-        private static readonly float PropertyHeight = EditorGUIUtility.singleLineHeight * 3;
-        private static readonly float SingleLineHeight = EditorGUIUtility.singleLineHeight;
+
+        private float SingleLineHeight => EditorGUIUtility.singleLineHeight;
+        private float PreviewSize => EditorGUIUtility.singleLineHeight * 3;
 
         protected T MainAsset { get; private set; }
-        protected string MainAssetValue => mainAssetProperty?.stringValue;
-        protected string SubAssetValue => subAssetProperty?.stringValue;
-        protected bool HasMainAsset => !string.IsNullOrEmpty(MainAssetValue);
-        protected bool HasSubAsset => !string.IsNullOrEmpty(SubAssetValue);
+        protected string SubAsset { get; private set; }
+        protected string MainAssetGuid => mainAssetProperty?.stringValue;
+        protected string SubAssetName => subAssetProperty?.stringValue;
+        protected bool HasMainAsset => !string.IsNullOrEmpty(MainAssetGuid);
+        protected bool HasSubAsset => !string.IsNullOrEmpty(SubAssetName);
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -49,10 +51,13 @@ namespace Nine.AssetReferences.Editor.Drawers
             }
 
             EditorGUI.BeginProperty(position, label, property);
-            position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
+
+            position = EditorGUI.PrefixLabel(position,
+                                             GUIUtility.GetControlID(FocusType.Passive),
+                                             label);
 
             var previewRect = position.Split(0, 2)
-                                      .SetSize(PropertyHeight, PropertyHeight);
+                                      .SetSize(PreviewSize, PreviewSize);
 
             var controlRect = position.Split(1, 2)
                                       .SetXMin(previewRect.xMax + 1);
@@ -76,29 +81,15 @@ namespace Nine.AssetReferences.Editor.Drawers
                 DrawSubAsset(subAssetRect);
             }
 
-            ValidateSpriteReference(property);
             DrawValidationResults(infoRect);
+            CheckUndo();
 
             EditorGUI.EndProperty();
         }
 
-        private void ValidateSpriteReference(SerializedProperty property)
-        {
-            var targetObject = property.serializedObject.targetObject;
-            var targetObjectClassType = targetObject.GetType();
-            var field = targetObjectClassType.GetField(property.propertyPath);
-
-            if (field != null)
-            {
-                var value = field.GetValue(targetObject);
-                validationResults.Clear();
-                validator.Validate((AssetReferenceSprite)value, validationResults);
-            }
-        }
-
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return isInitialized ? PropertyHeight + 2 : SingleLineHeight;
+            return PreviewSize + 2;
         }
 
         private bool TryInitialize(SerializedProperty property)
@@ -116,7 +107,6 @@ namespace Nine.AssetReferences.Editor.Drawers
                 return isInitialized = false;
             }
 
-            serializedObject = property.serializedObject;
             validator = new AssetReferenceSpriteValidator();
             validationResults = new List<ValidationResult>();
             subAssetLabelStyle = new GUIStyle(EditorStyles.label) { fontStyle = FontStyle.Italic };
@@ -124,7 +114,16 @@ namespace Nine.AssetReferences.Editor.Drawers
             warningLabelStyle = new GUIStyle(EditorStyles.miniLabel) { normal = { textColor = Color.yellow } };
             errorLabelStyle = new GUIStyle(EditorStyles.miniLabel) { normal = { textColor = Color.red } };
 
+            serializedObject = property.serializedObject;
+            var targetObject = serializedObject.targetObject;
+            var targetObjectClassType = targetObject.GetType();
+            var field = targetObjectClassType.GetField(property.propertyPath);
+            var value = field.GetValue(targetObject);
+            reference = (AssetReferenceSprite)value;
+
             Reinitialize();
+
+            SubAsset = SubAssetName;
 
             return isInitialized = true;
         }
@@ -133,7 +132,7 @@ namespace Nine.AssetReferences.Editor.Drawers
         {
             if (HasMainAsset)
             {
-                SetMainAsset(AssetDatabaseUtility.LoadAssetWithGuid<T>(MainAssetValue));
+                SetMainAsset(AssetDatabaseUtility.LoadAssetWithGuid<T>(MainAssetGuid));
             }
 
             Initialize();
@@ -169,11 +168,7 @@ namespace Nine.AssetReferences.Editor.Drawers
         {
             var newAsset = (T)EditorGUI.ObjectField(rect, MainAsset, typeof(T), false);
 
-            if (MainAsset != newAsset)
-            {
-                SetMainAsset(newAsset);
-                SetSubAsset(string.Empty);
-            }
+            ChangeMainAsset(newAsset);
         }
 
         private void DrawSubAsset(Rect rect)
@@ -189,7 +184,7 @@ namespace Nine.AssetReferences.Editor.Drawers
                                        .SetWidth(ButtonWidth);
 
             EditorGUI.LabelField(spriteLabelRect,
-                                 HasSubAsset ? SubAssetValue : "Not selected",
+                                 HasSubAsset ? SubAssetName : "Not selected",
                                  subAssetLabelStyle);
 
             if (GUI.Button(spriteSelectRect, "Select"))
@@ -200,15 +195,37 @@ namespace Nine.AssetReferences.Editor.Drawers
             }
 
             // it doesn't set properly if changing stringValue from callback directly
-            if (cachedSubAssetName != null && cachedSubAssetName != SubAssetValue)
+            if (cachedSubAssetName != null && cachedSubAssetName != SubAssetName)
             {
                 SetSubAsset(cachedSubAssetName);
                 cachedSubAssetName = null;
             }
         }
 
+        private void CheckUndo()
+        {
+            var mainAssetChanged = AssetDatabaseUtility.GetAssetGuid(MainAsset) != MainAssetGuid;
+
+            if (mainAssetChanged)
+            {
+                SetMainAsset(AssetDatabaseUtility.LoadAssetWithGuid<T>(MainAssetGuid));
+                SetSubAsset(SubAssetName);
+                Debug.Log("Main Asset undo");
+            }
+
+            var subAssetChanged = SubAsset != SubAssetName;
+
+            if (subAssetChanged)
+            {
+                SetSubAsset(SubAssetName);
+                Debug.Log("Sub Asset undo");
+            }
+        }
+
         private void DrawValidationResults(Rect rect)
         {
+            validationResults.Clear();
+            validator.Validate(reference, validationResults);
             var result = validationResults.OrderByDescending(x => x.Type).First();
             DrawValidationResult(rect, result);
         }
@@ -244,6 +261,15 @@ namespace Nine.AssetReferences.Editor.Drawers
             }
         }
 
+        private void ChangeMainAsset(T newAsset)
+        {
+            if (MainAsset != newAsset)
+            {
+                SetMainAsset(newAsset);
+                SetSubAsset(string.Empty);
+            }
+        }
+
         protected void SetMainAsset(T newAsset)
         {
             var newGuid = string.Empty;
@@ -261,6 +287,7 @@ namespace Nine.AssetReferences.Editor.Drawers
         protected void SetSubAsset(string subAsset)
         {
             subAssetProperty.stringValue = subAsset;
+            SubAsset = subAsset;
             OnSubAssetChanged(subAsset);
         }
 

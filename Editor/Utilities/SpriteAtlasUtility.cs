@@ -3,7 +3,7 @@ using UnityEngine.U2D;
 
 namespace Nine.AssetReferences.Editor.Utilities
 {
-    public static class SpriteAtlasUtility
+    internal static class SpriteAtlasUtility
     {
         public static bool TryFindSpriteAtlasBySpriteName(string spriteName,
                                                           out SpriteAtlas spriteAtlas)

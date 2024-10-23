@@ -18,7 +18,7 @@ namespace Nine.AssetReferences.Editor.Drawers
         {
             if (HasMainAsset && HasSubAsset)
             {
-                selectedSprite = MainAsset.GetSprite(SubAssetValue);
+                selectedSprite = MainAsset.GetSprite(SubAssetName);
             }
         }
 
@@ -42,15 +42,14 @@ namespace Nine.AssetReferences.Editor.Drawers
 
         protected override void OnSubAssetChanged(string newSubAsset)
         {
-            if (!string.IsNullOrEmpty(newSubAsset))
-            {
-                selectedSprite = MainAsset.GetSprite(newSubAsset);
-            }
+            selectedSprite = !string.IsNullOrEmpty(newSubAsset)
+                ? MainAsset.GetSprite(newSubAsset)
+                : null;
         }
 
         protected override void OnPreviewClicked()
         {
-            AssetDatabaseUtility.PingObject(SubAssetValue);
+            AssetDatabaseUtility.PingObject(SubAssetName);
         }
     }
 }
