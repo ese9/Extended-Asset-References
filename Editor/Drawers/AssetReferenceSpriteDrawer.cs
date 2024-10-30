@@ -210,7 +210,6 @@ namespace Nine.AssetReferences.Editor.Drawers
             {
                 SetMainAsset(AssetDatabaseUtility.LoadAssetWithGuid<T>(MainAssetGuid));
                 SetSubAsset(SubAssetName);
-                Debug.Log("Main Asset undo");
             }
 
             var subAssetChanged = SubAsset != SubAssetName;
@@ -218,7 +217,6 @@ namespace Nine.AssetReferences.Editor.Drawers
             if (subAssetChanged)
             {
                 SetSubAsset(SubAssetName);
-                Debug.Log("Sub Asset undo");
             }
         }
 
