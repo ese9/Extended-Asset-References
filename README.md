@@ -32,7 +32,7 @@ https://github.com/ese9/Extended-Asset-References.git#v1.0.0
 
 Once installed, enhance your Unity scripts with our custom attributes for better asset reference management.
 
-### Attributes
+### Asset Reference Sprite
 
 #### FromAtlas
 ```csharp
@@ -59,6 +59,10 @@ public class Resource : ScriptableObject
     public AssetReferenceSprite iconRef;
 }
 ```
+
+Example of selecting a sprite when using any of the attributes
+
+![demo_1](https://github.com/user-attachments/assets/be50a362-9196-4184-81ed-0350ee5086c7)
 
 ## 📄 License
 
