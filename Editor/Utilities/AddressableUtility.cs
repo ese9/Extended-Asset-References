@@ -24,7 +24,7 @@ namespace Nine.AssetReferences.Editor.Utilities
 
             if (IsAssetAddressable(guid))
             {
-                Debug.LogWarning($"{obj.name} is already an addressable");
+                Debug.LogWarning($"{obj.name} is already addressable");
 
                 return;
             }

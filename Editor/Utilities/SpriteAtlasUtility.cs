@@ -25,7 +25,7 @@ namespace Nine.AssetReferences.Editor.Utilities
             return false;
         }
 
-        // GetSprites api returns copy of sprites included in atlas with (Clone) names
+        // GetSprites api returns copy of sprites included in atlas with (Clone) postfix names
         public static Sprite[] GetAtlasSprites(this SpriteAtlas spriteAtlas)
         {
             var arr = new Sprite[spriteAtlas.spriteCount];

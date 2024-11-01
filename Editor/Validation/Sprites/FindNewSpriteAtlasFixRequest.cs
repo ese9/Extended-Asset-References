@@ -22,7 +22,7 @@ namespace Nine.AssetReferences.Editor.Validation.Sprites
             if (SpriteAtlasUtility.TryFindSpriteAtlasBySpriteName(reference.SubObjectName, out var spriteAtlas))
             {
                 var subName = reference.SubObjectName;
-                // SetEditorAsset resets sub object name to default
+                // SetEditorAsset resets sub object name
                 reference.SetEditorAsset(spriteAtlas);
                 reference.SubObjectName = subName;
 
