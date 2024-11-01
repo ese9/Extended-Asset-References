@@ -4,7 +4,7 @@ Extended Asset References is an open-source package that enhances Unity's Addres
 
 **Compatible with:**
 - ✅ [Tri Inspector](https://github.com/codewriter-packages/Tri-Inspector)
-- ⚠️ [Odin Inspector](https://odininspector.com/). For compatibility, the [DrawWithUnity] attribute must be added to the AssetReference field
+- ⚠️ [Odin Inspector](https://odininspector.com/). For compatibility, the `[DrawWithUnity]` attribute must be added to the AssetReference field
 
 ## ✨ Features
 
