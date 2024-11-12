@@ -115,11 +115,7 @@ namespace Nine.AssetReferences.Editor.Drawers
             errorLabelStyle = new GUIStyle(EditorStyles.miniLabel) { normal = { textColor = Color.red } };
 
             serializedObject = property.serializedObject;
-            var targetObject = serializedObject.targetObject;
-            var targetObjectClassType = targetObject.GetType();
-            var field = targetObjectClassType.GetField(property.propertyPath);
-            var value = field.GetValue(targetObject);
-            reference = (AssetReferenceSprite)value;
+            reference = (AssetReferenceSprite)property.boxedValue;
 
             Reinitialize();
 
