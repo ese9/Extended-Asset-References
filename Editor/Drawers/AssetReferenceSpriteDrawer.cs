@@ -94,17 +94,17 @@ namespace Nine.AssetReferences.Editor.Drawers
 
         private bool TryInitialize(SerializedProperty property)
         {
-            if (isInitialized)
-            {
-                return true;
-            }
-
             mainAssetProperty = property.FindPropertyRelative("m_AssetGUID");
             subAssetProperty = property.FindPropertyRelative("m_SubObjectName");
 
             if (mainAssetProperty == null || subAssetProperty == null)
             {
                 return isInitialized = false;
+            }
+
+            if (isInitialized)
+            {
+                return true;
             }
 
             validator = new AssetReferenceSpriteValidator();
